@@ -9,7 +9,7 @@
     tools:context=".lista">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textTarefa"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Texto Exemplo"

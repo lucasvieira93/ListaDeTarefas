@@ -66,18 +66,22 @@ public class MainActivity extends AppCompatActivity {
         listaTarefas.add(tarefa2);
 
         //Exibe tarefas no recyclerview
+            //configurar adapter
+            tarefaAdapter = new TarefaAdapter(listaTarefas);
 
+            //configurar recyclerview
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayout.VERTICAL));
+            recyclerView.setAdapter(tarefaAdapter);
 
-        //configurar adapter
-        tarefaAdapter = new TarefaAdapter();
+    }
 
-        //configurar recyclerview
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayout.VERTICAL));
-        recyclerView.setAdapter(adapter);
-
+    @Override
+    protected void onStart() {
+        carregarListaTarefas();
+        super.onStart();
     }
 
     @Override
