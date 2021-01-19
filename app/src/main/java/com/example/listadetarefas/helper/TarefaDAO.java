@@ -27,7 +27,7 @@ public class TarefaDAO implements ITarefaDAO {
 
         try {
             escreve.insert(DbHelper.TABELA_TAREFAS, null, cv);
-            Log.i("INFO DB", "Sucesso ao criar a tabela");
+            Log.i("INFO DB", "Tarefa salva com sucesso");
 
         } catch (Exception e) {
             Log.i("INFO", "Erro ao salvar tarefa " + e.getMessage());

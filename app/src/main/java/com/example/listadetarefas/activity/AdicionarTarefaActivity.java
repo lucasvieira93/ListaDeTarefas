@@ -44,10 +44,6 @@ public class AdicionarTarefaActivity extends AppCompatActivity {
                 Tarefa tarefa = new Tarefa();
                 tarefa.setNomeTarefa("Ir ao mercado");
                 tarefaDAO.salvar(tarefa);
-                if (tarefa != null) {
-                    Toast.makeText(this, "Tarefa adicionada com sucesso", Toast.LENGTH_SHORT).show();
-
-                }
                 break;
         }
 
