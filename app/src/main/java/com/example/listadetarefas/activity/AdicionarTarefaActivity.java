@@ -9,14 +9,21 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.listadetarefas.R;
+import com.example.listadetarefas.helper.TarefaDAO;
+import com.example.listadetarefas.model.Tarefa;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class AdicionarTarefaActivity extends AppCompatActivity {
+
+    private TextInputEditText editTarefa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adicionar_tarefa);
+
+        editTarefa = findViewById(R.id.textTarefa);
     }
 
     @Override
@@ -28,12 +35,19 @@ public class AdicionarTarefaActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
 
             case R.id.item_salvar:
                 //Executa ação ara salvar o item
+                TarefaDAO tarefaDAO = new TarefaDAO(getApplicationContext());
 
-                Toast.makeText(this, "Salvo com sucesso!", Toast.LENGTH_SHORT).show();
+                Tarefa tarefa = new Tarefa();
+                tarefa.setNomeTarefa("Ir ao mercado");
+                tarefaDAO.salvar(tarefa);
+                if (tarefa != null) {
+                    Toast.makeText(this, "Tarefa adicionada com sucesso", Toast.LENGTH_SHORT).show();
+
+                }
                 break;
         }
 
