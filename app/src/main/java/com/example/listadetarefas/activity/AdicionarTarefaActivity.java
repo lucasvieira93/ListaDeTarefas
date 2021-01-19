@@ -31,15 +31,14 @@ public class AdicionarTarefaActivity extends AppCompatActivity {
         switch (item.getItemId()){
 
             case R.id.item_salvar:
-                Toast.makeText(this, "Salvo!", Toast.LENGTH_SHORT).show();
+                //Executa ação ara salvar o item
+
+                Toast.makeText(this, "Salvo com sucesso!", Toast.LENGTH_SHORT).show();
                 break;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void confirmarProcesso(View view){
-        Snackbar.make(view, "Funcionando!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-    }
 
 }
