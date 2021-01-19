@@ -30,7 +30,7 @@ public class TarefaDAO implements ITarefaDAO {
             Log.i("INFO DB", "Sucesso ao criar a tabela");
 
         } catch (Exception e) {
-            Log.i("INFO", "Erro ao salvar tarefa " + e.getMessage())
+            Log.i("INFO", "Erro ao salvar tarefa " + e.getMessage());
             return false;
 
         }
