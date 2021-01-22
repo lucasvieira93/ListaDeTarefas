@@ -2,11 +2,13 @@ package com.example.listadetarefas.helper;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.listadetarefas.model.Tarefa;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TarefaDAO implements ITarefaDAO {
@@ -27,7 +29,7 @@ public class TarefaDAO implements ITarefaDAO {
 
         try {
             escreve.insert(DbHelper.TABELA_TAREFAS, null, cv);
-            Log.i("INFO DB", "Tarefa salva com sucesso");
+            Log.i("INFO DB", "Tarefa salva com sucesso!");
 
         } catch (Exception e) {
             Log.i("INFO", "Erro ao salvar tarefa " + e.getMessage());
@@ -39,16 +41,62 @@ public class TarefaDAO implements ITarefaDAO {
 
     @Override
     public boolean atualizar(Tarefa tarefa) {
-        return false;
+
+        ContentValues cv = new ContentValues();
+        cv.put("nome", tarefa.getNomeTarefa());
+        cv.put("id", tarefa.getId());
+
+        try {
+            String[] args = {tarefa.getId().toString()};
+            escreve.update(DbHelper.TABELA_TAREFAS, cv, "id=?", args);
+            Log.i("INFO DB", "Tarefa atualizada com sucesso!");
+
+        } catch (Exception e) {
+            Log.i("INFO", "Erro ao atualizar tarefa " + e.getMessage());
+            return false;
+
+        }
+
+        return true;
     }
 
     @Override
     public boolean deletar(Tarefa tarefa) {
-        return false;
+
+        try {
+            String[] args = {tarefa.getId().toString()};
+            escreve.delete(DbHelper.TABELA_TAREFAS, "id=?", args);
+            Log.i("INFO DB", "Tarefa removida com sucesso!");
+
+        } catch (Exception e) {
+            Log.i("INFO", "Erro ao remover tarefa " + e.getMessage());
+            return false;
+        }
+
+        return true;
     }
 
     @Override
     public List<Tarefa> listar() {
-        return null;
+
+        List<Tarefa> tarefas = new ArrayList<>();
+        String sql = "SELECT * FROM " + DbHelper.TABELA_TAREFAS + " ;";
+        Cursor c = le.rawQuery(sql, null);
+
+        while (c.moveToNext()) {
+
+            Tarefa tarefa = new Tarefa();
+
+            Long id = c.getLong(c.getColumnIndex("id"));
+            String nomeTarefa = c.getString(c.getColumnIndex("nome"));
+
+            tarefa.setId(id);
+            tarefa.setNomeTarefa(nomeTarefa);
+
+            tarefas.add(tarefa);
+        }
+
+        return tarefas;
+
     }
 }
