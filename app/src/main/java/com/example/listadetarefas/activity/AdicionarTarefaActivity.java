@@ -30,7 +30,7 @@ public class AdicionarTarefaActivity extends AppCompatActivity {
         //Recuperar tarefa, caso seja edição
         tarefaAtual = (Tarefa) getIntent().getSerializableExtra("tarefaSelecionada");
 
-        if (tarefaAtual !=null){
+        if (tarefaAtual != null) {
             editTarefa.setText(tarefaAtual.getNomeTarefa());
         }
     }
@@ -52,14 +52,14 @@ public class AdicionarTarefaActivity extends AppCompatActivity {
                 String nomeTarefa = editTarefa.getText().toString();
 
                 //editar tarefa
-                if (tarefaAtual!=null){
-                    if(!nomeTarefa.isEmpty()){
+                if (tarefaAtual != null) {
+                    if (!nomeTarefa.isEmpty()) {
                         Tarefa tarefa = new Tarefa();
                         tarefa.setNomeTarefa(nomeTarefa);
                         tarefa.setId(tarefaAtual.getId());
 
                         //atualizar no banco de dados
-                        if(tarefaDAO.atualizar(tarefa)){
+                        if (tarefaDAO.atualizar(tarefa)) {
                             finish();
                             Toast.makeText(this, "Tarefa salva com sucesso!", Toast.LENGTH_SHORT).show();
 
@@ -70,11 +70,11 @@ public class AdicionarTarefaActivity extends AppCompatActivity {
 
                     //salvar nova tarefa
                 } else {
-                    if (!nomeTarefa.isEmpty()){
+                    if (!nomeTarefa.isEmpty()) {
                         Tarefa tarefa = new Tarefa();
                         tarefa.setNomeTarefa(nomeTarefa);
 
-                        if (tarefaDAO.salvar(tarefa)){
+                        if (tarefaDAO.salvar(tarefa)) {
                             finish();
                             Toast.makeText(this, "Tarefa salva com sucesso!", Toast.LENGTH_SHORT).show();
 

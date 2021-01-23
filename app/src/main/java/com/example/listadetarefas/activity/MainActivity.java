@@ -1,8 +1,10 @@
 package com.example.listadetarefas.activity;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.example.listadetarefas.R;
@@ -33,12 +35,15 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
+
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private TarefaAdapter tarefaAdapter;
     private List<Tarefa> listaTarefas = new ArrayList<>();
     private Tarefa tarefaSelecionada;
+    private String ARQUIVO_PREFERENCIA = "Arquivo";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,30 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(ARQUIVO_PREFERENCIA, 0);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        boolean podeAparecerAnimacao = sharedPreferences.getBoolean("podeAparecerAnimacao", true);
+
+        if (podeAparecerAnimacao) {
+            new MaterialTapTargetPrompt.Builder(MainActivity.this)
+                    .setTarget(R.id.fab)
+                    .setPrimaryText("Adicione tarefas!")
+                    .setSecondaryText("Clique aqui para adicionar novas tarefas a sua lista.")
+                    .setAutoDismiss(false)
+                    .setPromptStateChangeListener(new MaterialTapTargetPrompt.PromptStateChangeListener() {
+                        @Override
+                        public void onPromptStateChanged(MaterialTapTargetPrompt prompt, int state) {
+                          if (state == MaterialTapTargetPrompt.STATE_FINISHED) {
+                            editor.putBoolean("podeAparecerAnimacao", false);
+                            editor.commit();
+                          }
+                        }
+                    })
+                    .show();
+
+        }
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -88,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int which) {
 
                                         TarefaDAO tarefaDAO = new TarefaDAO(getApplicationContext());
-                                        if (tarefaDAO.deletar(tarefaSelecionada)){
+                                        if (tarefaDAO.deletar(tarefaSelecionada)) {
                                             Toast.makeText(getApplicationContext(), "Tarefa excluída com sucesso!", Toast.LENGTH_SHORT).show();
                                             carregarListaTarefas();
 
@@ -128,22 +157,22 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
     }
 
-    public void carregarListaTarefas(){
+    public void carregarListaTarefas() {
 
         //Listar tarefas
         TarefaDAO tarefaDAO = new TarefaDAO(getApplicationContext());
         listaTarefas = tarefaDAO.listar();
 
         //Exibe tarefas no recyclerview
-            //configurar adapter
-            tarefaAdapter = new TarefaAdapter(listaTarefas);
+        //configurar adapter
+        tarefaAdapter = new TarefaAdapter(listaTarefas);
 
-            //configurar recyclerview
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-            recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setHasFixedSize(true);
-            recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayout.VERTICAL));
-            recyclerView.setAdapter(tarefaAdapter);
+        //configurar recyclerview
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayout.VERTICAL));
+        recyclerView.setAdapter(tarefaAdapter);
 
     }
 
