@@ -28,6 +28,10 @@ android {
     }
 }
 
+repositories {
+    jcenter()
+}
+
 dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
@@ -39,4 +43,8 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    //MaterialTapTarget
+    implementation 'uk.co.samuelwall:material-tap-target-prompt:3.1.0'
+
 }
